@@ -10,7 +10,6 @@ dotenv.config()
 const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGIN_URL || [] 
 
 let urls = ALLOWED_ORIGINS.match(/'([^']+)'/g)
-console.log("🚀 ~ file: app.mjs:13 ~ urls:", urls)
 
 // Create http server
 const app = express()
