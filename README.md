@@ -24,6 +24,7 @@ For authentication and encryption purposes: IDS (Array: ["ids"]), DOMAINS (Array
 
 ALLOWED_ORIGIN_URL (Array: ["urls"] : The URL's allowed to access the API endpoints
 
+OPENAI_API_KEY (String) Your API key from OpenAI
 
 See also the example.env 🔍
 
