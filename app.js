@@ -1,8 +1,8 @@
 import express, { json } from "express";
 import dotenv from 'dotenv'
 import cors from 'cors'
-import verifyToken from "./middleware/auth.mjs";
-import { pokemonGame } from "./modules/openai-api.mjs";
+import verifyToken from "./middleware/auth.js";
+import { pokemonGame } from "./modules/openai-api.js";
 
 dotenv.config()
 
