@@ -1,0 +1,42 @@
+{
+  "name": "link-preview-generator",
+  "version": "1.1.0",
+  "description": "Get preview data (a title, description, image, domain name, favicon) from a url. Library uses puppeteer headless browser to scrape the web site.",
+  "main": "index.mjs",
+  "type": "module",
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "packageManager": "pnpm@8.5.1",
+  "scripts": {
+    "start": "node index.mjs",
+    "dev": "nodemon index.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "opeai",
+    "chat-pokemon",
+    "data",
+    "jwt",
+    "node",
+    "authentication"
+  ],
+  "author": "Enrique Orellana",
+  "license": "MIT",
+  "types": "./index.d.ts",
+  "devDependencies": {
+    "@types/node": "^20.8.8",
+    "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "get-urls": "^12.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "openai": "^4.14.0",
+    "random": "^4.1.0",
+    "valid-url": "^1.0.9"
+  }
+}
