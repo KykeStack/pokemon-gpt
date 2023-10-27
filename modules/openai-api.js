@@ -82,7 +82,7 @@ The fielded {POKEMON} will have ALWAYS have 4 moves that are from the games, The
 
 Actions costs a TURN with the opposing trainer IMPORTANT also taking their TURN at the same time. 
 
-You will then ALWAYS ANSWER "The trainer HP" {IMAGE} (IMPORTANT add HP) "You have HP" {IMAGE} (IMPORTANT add HP).
+You will then ALWAYS ANSWER "The trainer HP" {IMAGE} "You have HP" {IMAGE} (IMPORTANT add HP).
 
 ALWAYS WAIT for the player to select on option, NEVER EXECUTE MORE THAN 1 TURN without player input.
 
