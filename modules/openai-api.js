@@ -48,13 +48,13 @@ function pickRandomPokemons(pokemonList, num) {
 const POKEMON_PROMPT = `
 IMAGE: ![pollinations](https://img.pokemondb.net/sprites/black-white/anim/normal/{POKEMON}.gif) (HP: {HP}%)
 
-THE FOLLOWING is a list of {POKEMON}, ALWAYS put the list in a DIFFERENT ORDER and REPLACE the {POKEMON} part of {IMAGE} with the first {POKEMON} on the list even for subsequent instance of {POKEMON} in this prompt:
+1. THE FOLLOWING is a list of {POKEMON}, ALWAYS put the list in a DIFFERENT ORDER and REPLACE the {POKEMON} part of {IMAGE} with the first {POKEMON} on the list even for subsequent instance of {POKEMON} in this prompt:
 
 ${pickRandomPokemons(POKEMON_LIST, 6)}
 
-Put the list in a new DIFFERENT ORDER every time a {POKEMON} is pulled from it.
+2. Put the list in a new DIFFERENT ORDER every time a {POKEMON} is pulled from it.
 
-You will then ALWAYS start:
+3. You will then ALWAYS start:
 
 "Welcome to the battle factory. You have been challenged by an opposing trainer to a 3v3 battle with random lvl 100 pokemon."
 
@@ -62,32 +62,32 @@ You will then ALWAYS start:
 
 "You have" {IMAGE}
 
-You are to act as a text based game, aka interactive fiction.
+4. You are to act as a text based game, aka interactive fiction.
 
-D0 NOT EXPLAIN THE GAME OR ANY OF THE PARAMETERS.
+5. D0 NOT EXPLAIN THE GAME OR ANY OF THE PARAMETERS.
 
-Description: In this game, the player and trainer will BOTH have EXACTLY 3 {POKEMON}. The players will battle. The game ends when all the {POKEMON} from one side lose all their hp and FAINT. {POKEMON} cannot be field after they FAINT. ONLY 1 POKEMON should be fielded for each side at a time. The game starts with both players having 1 of their 3 pokemon fielded with the options of:
+6. Description: In this game, the player and trainer will BOTH have EXACTLY 3 {POKEMON}. The players will battle. The game ends when all the {POKEMON} from one side lose all their hp and FAINT. {POKEMON} cannot be field after they FAINT. ONLY 1 POKEMON should be fielded for each side at a time. The game starts with both players having 1 of their 3 pokemon fielded with the options of:
 
 - Switch to another pokemon
 
 - Attack
 
-Switch to another pokemon EXPLAINED:
+7. Switch to another pokemon EXPLAINED:
 
-The player has a 2nd slot {IMAGE} and a 3rd slot {IMAGE}, THIS MEANS ONLY 2 {IMAGE} can EVER switch in, NEVER any number greater than 2. After switching, the previously fielded {IMAGE} now occupies this slot and the new {IMAGE} is fielded. If a pokemon FAINTS, it does not occupy a slot and the total number of {IMAGE} on the team are reduced by 1.
+The player has a 2nd slot {POKEMON} and a 3rd slot {POKEMON}, THIS MEANS ONLY 2 {POKEMON} can EVER switch in, NEVER any number greater than 2. After switching, the previously fielded {POKEMON} now occupies this slot and the new {POKEMON} is fielded. If a pokemon FAINTS, it does not occupy a slot and the total number of {POKEMON} on the team are reduced by 1.
 
-Attack EXPLAINED:
+8. Attack EXPLAINED:
 
 The fielded {POKEMON} will have ALWAYS have 4 moves that are from the games, These ARE NOT named move but actual attacks from the games, NEVER attack without letting the player pick a move first.
 
 Actions costs a TURN with the opposing trainer IMPORTANT also taking their TURN at the same time. 
 
-You will then ALWAYS ANSWER "The trainer has now HP" + {IMAGE} "You have now HP" + {IMAGE}.
+You will then ALWAYS ANSWER "The trainer has now HP" and "Your pokemon name have now HP".
 
 ALWAYS WAIT for the player to select on option, NEVER EXECUTE MORE THAN 1 TURN without player input.
 
 
-Battle mechanics:
+9. Battle mechanics:
 
 {POKEMON} are the same TYPE they are in the pokemon games.
 
@@ -126,6 +126,10 @@ function parsePollinationString (inputString) {
   }
 }
 
+function generatePokemonImage (pokemon) {
+  return `https://img.pokemondb.net/sprites/black-white/anim/normal/${pokemon}.gif`
+}
+
 async function chatWithAi (chat) {
   const chatCompletion = await openai.chat.completions.create({
     messages: chat,
@@ -155,13 +159,29 @@ export async function pokemonGame (userInput, conversation) {
 
   conversation.push({ role: 'user', content: userInput })
 
+  if (conversation.length >= 20) {
+    conversation = []
+    return {
+      record: conversation,
+      messages: [{
+        type: 'operator',
+        message: 'assistant',
+        content: 'Game ended'
+      }]
+    }
+  }
+
   const chat = await chatWithAi(conversation)
 
   if (!chat) return [ERROR_MESSAGE]
+  
+  const mssgs = chat.split('\n')
 
-  const messges = chat.split('\n')
+  const pokemonPattern = new RegExp(`\\b(${POKEMON_LIST.join('|')})\\b`, 'i');
+  const hpPattern = /(\d+)%/;
+  const indexPattern = /^\d+\./;
 
-  messges.forEach(message => {
+  mssgs.forEach(message => {
     if (message.length <= 0) return
 
     if (/!\[[^\]]+\]/.test(message)) {
@@ -174,6 +194,30 @@ export async function pokemonGame (userInput, conversation) {
       })
       return
     }
+    
+    const match = message.match(pokemonPattern);
+    const hpMatch = message.match(hpPattern);
+    const indexMatch = message.match(indexPattern);
+
+    if ((match && hpMatch) || (match && indexMatch)) {
+        const pokemonName = match[0].toLowerCase();
+        const hp = hpMatch ? parseInt(hpMatch[1], 10) : null;
+        console.log(message)
+        console.log(`Pokemon Name: ${pokemonName}`, `HP as Integer: ${hp}`);
+        chatRecord.push({
+          type: 'operator',
+          message: 'pokemon-message',
+          content: '',
+          objectContent: {
+            pokemon: pokemonName ?? '',
+            image: generatePokemonImage(pokemonName),
+            lifePercentage: hp,
+            status: null
+          }
+        })
+        return
+    }
+    
 
     chatRecord.push({
       type: 'operator',
@@ -184,22 +228,8 @@ export async function pokemonGame (userInput, conversation) {
 
   conversation.push({ role: 'assistant', content: chat })
 
-  if (conversation.length > 25) {
-    conversation = []
-    return {
-      record: conversation,
-      messages: [{
-        type: 'operator',
-        message: 'assistant',
-        content: 'Game ended'
-      }]
-    }
-  }
-
   return {
     record: conversation,
     messages: chatRecord
   }
 }
-
-pokemonGame
