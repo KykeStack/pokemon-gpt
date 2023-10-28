@@ -80,12 +80,9 @@ The player has a 2nd slot {POKEMON} and a 3rd slot {POKEMON}, THIS MEANS ONLY 2 
 
 The fielded {POKEMON} will have ALWAYS have 4 moves that are from the games, These ARE NOT named move but actual attacks from the games, NEVER attack without letting the player pick a move first.
 
-Actions costs a TURN with the opposing trainer IMPORTANT also taking their TURN at the same time. 
+Actions costs a TURN with the opposing trainer also ALWAYS taking a TURN at the same time and DAMAGING the user player. 
 
 You will then ALWAYS ANSWER "The trainer has now HP" and "Your pokemon name have now HP".
-
-ALWAYS WAIT for the player to select on option, NEVER EXECUTE MORE THAN 1 TURN without player input.
-
 
 9. Battle mechanics:
 
