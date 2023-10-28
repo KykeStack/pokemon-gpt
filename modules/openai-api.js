@@ -202,8 +202,6 @@ export async function pokemonGame (userInput, conversation) {
     if ((match && hpMatch) || (match && indexMatch)) {
         const pokemonName = match[0].toLowerCase();
         const hp = hpMatch ? parseInt(hpMatch[1], 10) : null;
-        console.log(message)
-        console.log(`Pokemon Name: ${pokemonName}`, `HP as Integer: ${hp}`);
         chatRecord.push({
           type: 'operator',
           message: 'pokemon-message',
