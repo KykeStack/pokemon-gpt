@@ -2,6 +2,11 @@
 
 Welcome to the Pokemon-GPT API, an exciting text-based Pokemon adventure powered by GPT-3! 
 
+<video height="440" controls autoplay>
+  <source src="https://lzpjglicedvhpzcyafkn.supabase.co/storage/v1/object/sign/Horoscope_Images/pokemon-gpt.mp4?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJIb3Jvc2NvcGVfSW1hZ2VzL3Bva2Vtb24tZ3B0Lm1wNCIsImlhdCI6MTY5OTAzMjk1MSwiZXhwIjoxODU2NzEyOTUxfQ.zYn0Soyr4yX9I6cJuQorDQ8mzIboGKBaLEfHcmwImpM&t=2023-11-03T17%3A35%3A52.360Z" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 ## Getting Started
 
 ## Install
