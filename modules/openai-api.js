@@ -156,18 +156,6 @@ export async function pokemonGame (userInput, conversation) {
 
   conversation.push({ role: 'user', content: userInput })
 
-  if (conversation.length >= 20) {
-    conversation = []
-    return {
-      record: conversation,
-      messages: [{
-        type: 'operator',
-        message: 'assistant',
-        content: 'Game ended'
-      }]
-    }
-  }
-
   const chat = await chatWithAi(conversation)
 
   if (!chat) return [ERROR_MESSAGE]
