@@ -50,7 +50,7 @@ To interact with the Pokemon-GPT API, follow these steps:
 
 5. **Example cURL Request:**
 
-The record is empty at the start, needs to be passed return records to keep memory.
+The record is empty at the start, needs to be passed for  memory record.
 
 ```bash
 curl -X POST http://localhost:8080/game \
